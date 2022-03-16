@@ -1,0 +1,43 @@
+name: Build and test and deploy codebase
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build: 
+    name: build typescript code
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: yarn 
+      - run: yarn build
+  # test:
+  #   name: run test
+  #   needs: build
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version:  12.x
+  #     - run: yarn
+  #     - run: yarn test
+  deploy_to_dev_server:
+    name: deploy webapp
+    # needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: https://helpdevs-devenrn.herokuapp.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.ORG_EMAIL}}
