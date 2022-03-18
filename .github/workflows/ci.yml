@@ -29,7 +29,7 @@ jobs:
       - run: yarn test
   deploy_to_dev_server:
     name: deploy webapp
-    # needs: test
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: dev
