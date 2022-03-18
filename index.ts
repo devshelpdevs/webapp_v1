@@ -1,7 +1,7 @@
-import { config } from "dotenv";
+import dotenv from "dotenv";
 //load env if enviroment is not equal to production
 if(process.env.NODE_ENV !== "production") {
-    config();
+    dotenv.config();
 }
 import express from "express";
 import { engine } from "express-handlebars";
@@ -19,11 +19,10 @@ app.engine(".hbs", engine({ extname: ".hbs", defaultLayout: "main" }));
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 
-// app.use(express.static("./public", "./public))
 app.get('/', indexRouter);
 
 app.use((req, res, next) => {
-  res.status(404).send("404 Not Found");
+  res.status(404).render("404");
 });
 
 const PORT:number|string = process.env.PORT || 3000;
@@ -31,3 +30,5 @@ const PORT:number|string = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("web app running on port " + PORT)
 });
+
+export { app };
