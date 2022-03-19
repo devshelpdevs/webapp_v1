@@ -39,6 +39,6 @@
     "start": "node index.js",
     "dev": "nodemon index.ts",
     "build": "tsc -p .",
-    "test": "mocha --timeout 20000|| true"
+    "test": "mocha --timeout 20000 || true"
   }
 }

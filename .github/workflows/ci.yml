@@ -1,14 +1,14 @@
 name: Build and test and deploy codebase
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
 
 jobs:
   build: 
     name: build typescript code
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -17,15 +17,14 @@ jobs:
       - run: yarn 
       - run: yarn build
   test:
-    name: run test
+    name: run tests
     needs: build
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version:  12.x
-      - run: yarn
+          node-version:  14.x
       - run: yarn test
   deploy_to_dev_server:
     name: deploy webapp
